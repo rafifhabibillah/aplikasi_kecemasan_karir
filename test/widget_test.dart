@@ -2,8 +2,8 @@ import 'package:aplikasi_kecemasan_karir/main.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('App starts at splash branding', (tester) async {
-    await tester.pumpWidget(const ArahTenangApp());
-    expect(find.text('ArahTenang'), findsOneWidget);
+  testWidgets('Arahku splash shows brand', (tester) async {
+    await tester.pumpWidget(const ArahkuApp());
+    expect(find.text('Arahku'), findsOneWidget);
   });
 }

@@ -13,14 +13,17 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        // Fallback eksplisit jika gradlePluginPortal DNS gagal sementara
+        maven { url = uri("https://repo.maven.apache.org/maven2/") }
+        maven { url = uri("https://maven.google.com/") }
         gradlePluginPortal()
     }
 }
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "8.11.1" apply false
-    id("org.jetbrains.kotlin.android") version "2.2.20" apply false
+    id("com.android.application") version "9.3.1" apply false
+    id("org.jetbrains.kotlin.android") version "2.4.20" apply false
 }
 
 include(":app")

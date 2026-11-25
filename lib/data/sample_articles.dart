@@ -7,6 +7,8 @@ const sampleArticles = <EducationArticle>[
     subtitle: 'Memahami sinyal khawatir soal masa depan tanpa menghakimi diri.',
     category: 'Dasar',
     minutes: 3,
+    relatedPracticeId: 'mindful_pause',
+    relatedPracticeLabel: 'Coba jeda mindful karier',
     body:
         'Kecemasan karier adalah rasa khawatir yang muncul saat seseorang '
         'memikirkan pilihan studi, pekerjaan, atau arah masa depan. Pada siswa, '
@@ -23,6 +25,8 @@ const sampleArticles = <EducationArticle>[
     subtitle: 'Cara meredakan tekanan dengan rencana yang realistis.',
     category: 'Praktik',
     minutes: 4,
+    relatedPracticeId: 'strength_pick',
+    relatedPracticeLabel: 'Ambil 3 kekuatanmu',
     body:
         'Banyak siswa merasa harus segera “tahu mau jadi apa”. Padahal perencanaan '
         'karier lebih sehat jika dimulai dari langkah kecil.\n\n'
@@ -38,6 +42,8 @@ const sampleArticles = <EducationArticle>[
     subtitle: 'Latihan singkat agar pilihan tidak hanya didorong rasa takut.',
     category: 'Refleksi',
     minutes: 4,
+    relatedPracticeId: 'worry_sort',
+    relatedPracticeLabel: 'Pilah rasa khawatir',
     body:
         'Saat cemas, otak sering mencampur fakta dengan ketakutan. Coba pisahkan '
         'dalam 3 kolom:\n\n'
@@ -53,6 +59,8 @@ const sampleArticles = <EducationArticle>[
     subtitle: 'Tanda bahwa dukungan orang lain akan sangat membantu.',
     category: 'Dukungan',
     minutes: 3,
+    relatedPracticeId: 'grounding',
+    relatedPracticeLabel: 'Coba grounding dulu',
     body:
         'Kamu bisa mulai mandiri, tapi ada saatnya dukungan profesional lebih tepat. '
         'Pertimbangkan bicara ke guru BK jika:\n\n'
@@ -67,6 +75,8 @@ const sampleArticles = <EducationArticle>[
     subtitle: 'Hadir di sini dan sekarang tanpa memaksa rasa cemas hilang.',
     category: 'Mindfulness',
     minutes: 4,
+    relatedPracticeId: 'body_scan',
+    relatedPracticeLabel: 'Coba body scan singkat',
     body:
         'Mindfulness bukan berarti mengosongkan pikiran. Intinya adalah menyadari '
         'apa yang sedang terjadi—napas, tubuh, pikiran—tanpa langsung dilawan.\n\n'
@@ -79,9 +89,12 @@ const sampleArticles = <EducationArticle>[
   EducationArticle(
     id: 'a6',
     title: 'Napas sebagai rem darurat saat overthinking',
-    subtitle: 'Teknik sederhana yang bisa dipakai sebelum ujian, konsultasi, atau memutuskan jurusan.',
+    subtitle:
+        'Teknik sederhana yang bisa dipakai sebelum ujian, konsultasi, atau memutuskan jurusan.',
     category: 'Mindfulness',
     minutes: 3,
+    relatedPracticeId: 'breathing',
+    relatedPracticeLabel: 'Coba napas box',
     body:
         'Overthinking sering membuat napas menjadi pendek. Latihan napas box '
         '(tarik–tahan–buang–tahan, masing-masing 4 hitungan) membantu sistem saraf '

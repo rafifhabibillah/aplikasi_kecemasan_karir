@@ -1,15 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../data/mindfulness_practices.dart';
 import '../models/mindfulness_practice.dart';
+import '../navigation/shell_nav.dart';
 import '../theme/app_theme.dart';
+import '../utils/practice_router.dart';
 import '../widgets/common_widgets.dart';
-import 'body_scan_screen.dart';
-import 'breathing_screen.dart';
-import 'grounding_screen.dart';
-import 'mindful_pause_screen.dart';
-import 'strength_pick_screen.dart';
-import 'worry_sort_screen.dart';
 
 class PracticeHubScreen extends StatelessWidget {
   const PracticeHubScreen({super.key});
@@ -31,16 +27,11 @@ class PracticeHubScreen extends StatelessWidget {
     }
   }
 
-  void _open(BuildContext context, MindfulnessPractice practice) {
-    final Widget page = switch (practice.kind) {
-      PracticeKind.breathing => const BreathingScreen(),
-      PracticeKind.grounding => const GroundingScreen(),
-      PracticeKind.mindfulPause => const MindfulPauseScreen(),
-      PracticeKind.bodyScan => const BodyScanScreen(),
-      PracticeKind.worrySort => const WorrySortScreen(),
-      PracticeKind.strengthPick => const StrengthPickScreen(),
-    };
-    Navigator.of(context).push(MaterialPageRoute(builder: (_) => page));
+  Future<void> _open(BuildContext context, MindfulnessPractice practice) async {
+    await Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => practicePageFor(practice.kind)),
+    );
+    ShellNav.bump();
   }
 
   @override
@@ -113,15 +104,10 @@ class PracticeHubScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(14),
                             child: Row(
                               children: [
-                                Container(
-                                  width: 56,
-                                  height: 56,
-                                  decoration: BoxDecoration(
-                                    color: accent.withValues(alpha: 0.12),
-                                    borderRadius: BorderRadius.circular(18),
-                                  ),
-                                  child: Icon(_icon(practice.iconName),
-                                      color: accent),
+                                PracticeIconBadge(
+                                  icon: _icon(practice.iconName),
+                                  color: accent,
+                                  size: 56,
                                 ),
                                 const SizedBox(width: 12),
                                 Expanded(

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
+import '../navigation/shell_nav.dart';
 import '../theme/app_theme.dart';
 import 'home_screen.dart';
 import 'practice_hub_screen.dart';
@@ -18,17 +19,25 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   late int _index;
 
-  final _pages = const [
-    HomeScreen(),
-    PracticeHubScreen(),
-    ReflectScreen(),
-    ProgressScreen(),
-  ];
-
   @override
   void initState() {
     super.initState();
     _index = widget.initialIndex;
+    ShellNav.tabIndex.value = _index;
+    ShellNav.tabIndex.addListener(_onTabChanged);
+  }
+
+  void _onTabChanged() {
+    final next = ShellNav.tabIndex.value;
+    if (next != _index && mounted) {
+      setState(() => _index = next);
+    }
+  }
+
+  @override
+  void dispose() {
+    ShellNav.tabIndex.removeListener(_onTabChanged);
+    super.dispose();
   }
 
   @override
@@ -36,7 +45,12 @@ class _MainShellState extends State<MainShell> {
     return Scaffold(
       body: IndexedStack(
         index: _index,
-        children: _pages,
+        children: const [
+          HomeScreen(),
+          PracticeHubScreen(),
+          ReflectScreen(),
+          ProgressScreen(),
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _index,
@@ -45,7 +59,11 @@ class _MainShellState extends State<MainShell> {
         surfaceTintColor: Colors.transparent,
         shadowColor: AppColors.deep.withValues(alpha: 0.08),
         elevation: 8,
-        onDestinationSelected: (value) => setState(() => _index = value),
+        onDestinationSelected: (value) {
+          setState(() => _index = value);
+          ShellNav.tabIndex.value = value;
+          ShellNav.bump();
+        },
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),

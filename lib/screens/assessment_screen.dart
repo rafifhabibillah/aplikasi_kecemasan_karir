@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../data/sample_instrument.dart';
 import '../models/question.dart';
@@ -21,6 +21,7 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
   final _store = AssessmentStore();
   var _index = 0;
   var _submitting = false;
+  var _consented = false;
 
   Question get _current => sampleQuestions[_index];
   bool get _isLast => _index == sampleQuestions.length - 1;
@@ -53,8 +54,12 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
   }
 
   void _back() {
-    if (_index == 0) {
+    if (!_consented) {
       Navigator.of(context).maybePop();
+      return;
+    }
+    if (_index == 0) {
+      setState(() => _consented = false);
       return;
     }
     setState(() => _index -= 1);
@@ -62,6 +67,78 @@ class _AssessmentScreenState extends State<AssessmentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!_consented) {
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Sebelum mulai'),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_rounded),
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
+        ),
+        body: AtmosphereBackground(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 28),
+            children: [
+              SoftPanel(
+                color: AppColors.deep,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      sampleInstrumentTitle,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w800,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '${sampleQuestions.length} pertanyaan · sekitar 5–8 menit',
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.75),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 14),
+              SoftPanel(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Persetujuan singkat',
+                      style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      '• Jawablah sejujur mungkin sesuai perasaanmu saat ini.\n'
+                      '• Tidak ada jawaban benar atau salah.\n'
+                      '• Hasil tersimpan lokal di perangkat untuk riwayatmu.\n'
+                      '• Instrumen masih draft sampai peneliti mengirim versi final.\n'
+                      '• Hasil bukan diagnosis klinis dan bukan pengganti konseling.',
+                      style: TextStyle(height: 1.5, color: AppColors.muted),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+              FilledButton(
+                onPressed: () => setState(() => _consented = true),
+                child: const Text('Saya paham, mulai asesmen'),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton(
+                onPressed: () => Navigator.of(context).maybePop(),
+                child: const Text('Kembali'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     final selected = _answers[_current.id];
 
     return Scaffold(

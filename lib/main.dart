@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'brand/app_brand.dart';
 import 'screens/splash_screen.dart';
 import 'theme/app_theme.dart';
 
@@ -14,16 +15,16 @@ Future<void> main() async {
       statusBarIconBrightness: Brightness.dark,
     ),
   );
-  runApp(const ArahTenangApp());
+  runApp(const ArahkuApp());
 }
 
-class ArahTenangApp extends StatelessWidget {
-  const ArahTenangApp({super.key});
+class ArahkuApp extends StatelessWidget {
+  const ArahkuApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'ArahTenang',
+      title: AppBrand.name,
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       home: const SplashScreen(),

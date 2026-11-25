@@ -1,10 +1,10 @@
-# Rangkuman Proyek ArahTenang
+# Rangkuman Proyek Arahku
 
 Dokumentasi perjalanan chat dan pekerjaan teknis dari awal sampai kondisi terkini.
 
-**Tanggal update:** 22 November 2026  
+**Tanggal update:** 24 November 2026  
 **Repo:** `aplikasi_kecemasan_karir`  
-**Nama aplikasi:** ArahTenang
+**Nama aplikasi:** Arahku (rebrand dari ArahTenang)
 
 ---
 
@@ -31,8 +31,8 @@ Kondisi awal project: **greenfield** (belum ada kode / dokumen teknis di workspa
 
 | Aspek | Keputusan |
 |---|---|
-| Nama brand | **ArahTenang** |
-| Tagline arah | Tenangkan pikiran, arahkan karier |
+| Nama brand | **Arahku** |
+| Tagline arah | Kenali cemas kariermu, ambil langkah yang lebih jelas. |
 | Konsep utama | Asesmen + edukasi + mindfulness / intervensi ringan |
 | Stack | Flutter (prioritas Android) |
 | Penyimpanan data | Lokal di perangkat (`SharedPreferences`) |
@@ -104,11 +104,22 @@ Ditambahkan modul wellbeing:
 ### Fase 3 — Brand & polish UI
 
 - Icon launcher custom (bukan default Flutter)
-- Nama aplikasi di perangkat: **ArahTenang**
+- Nama aplikasi di perangkat: **Arahku**
 - Tipografi Manrope
 - Background gradient, panel lebih halus, transisi fade
 - Redesign splash & login agar lebih profesional
 - APK rebuild (~50 MB)
+
+### Fase 5 — Rebrand Arahku + UX journey polish (Nov 2026)
+
+- Rebrand **ArahTenang → Arahku** + logo baru (kompas/langkah)
+- Onboarding 3 layar + consent asesmen
+- Home disederhanakan (hero + insight + quick actions)
+- Result: 1 primary next step; kembali ke shell tanpa remount
+- Progress: sparkline 7 hari, kalender aktivitas, ekspor JSON
+- Artikel → CTA latihan terkait
+- Check-in 1x/hari (upsert), hapus jurnal, empty states
+- Accent amber untuk aksi utama
 
 ### Fase 4 — Mindfulness interaktif & UX keseluruhan
 
@@ -254,7 +265,7 @@ Ukuran terakhir: sekitar **50 MB**.
 
 ## 11. Kesimpulan singkat
 
-Dari kondisi “buat aplikasi tesis tapi belum ada dokumen”, project ini sudah berkembang menjadi aplikasi mobile **ArahTenang** yang dapat didemo:
+Dari kondisi “buat aplikasi tesis tapi belum ada dokumen”, project ini sudah berkembang menjadi aplikasi mobile **Arahku** yang dapat didemo:
 
 - mengukur kecemasan karier,
 - memberi interpretasi hasil,

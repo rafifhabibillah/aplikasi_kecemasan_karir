@@ -43,3 +43,15 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
+/android/.gradle/
+
+# JVM crash / heap dumps (bisa ratusan MB, ditolak GitHub)
+*.hprof
+hs_err_pid*.log
+replay_pid*.log
+
+# Local build logs
+build_apk_log.txt
+build_apk_log.txt.err
+

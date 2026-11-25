@@ -8,10 +8,21 @@ class SessionService {
   static const _nameKey = 'student_name';
   static const _nisKey = 'student_nis';
   static const _loggedInKey = 'is_logged_in';
+  static const _onboardingKey = 'onboarding_done';
 
   Future<bool> isLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getBool(_loggedInKey) ?? false;
+  }
+
+  Future<bool> isOnboardingDone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(_onboardingKey) ?? false;
+  }
+
+  Future<void> setOnboardingDone() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_onboardingKey, true);
   }
 
   Future<void> login({required String name, required String nis}) async {
@@ -19,10 +30,18 @@ class SessionService {
     await prefs.setString(_nameKey, name.trim());
     await prefs.setString(_nisKey, nis.trim());
     await prefs.setBool(_loggedInKey, true);
+    await prefs.setBool(_onboardingKey, true);
   }
 
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool(_loggedInKey, false);
+  }
+
+  Future<void> clearProfile() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_nameKey);
+    await prefs.remove(_nisKey);
     await prefs.setBool(_loggedInKey, false);
   }
 

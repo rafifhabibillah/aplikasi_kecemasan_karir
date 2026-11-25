@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 import '../services/wellbeing_store.dart';
 import '../widgets/practice_widgets.dart';

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppColors {
@@ -13,6 +13,9 @@ class AppColors {
   static const high = Color(0xFFB42318);
   static const low = Color(0xFF2F6B4F);
   static const creamSoft = Color(0xFFF7FBFA);
+  /// Aksen aksi / arah (bukan ungu) — dipakai CTA sekunder & highlight.
+  static const accent = Color(0xFFC9852A);
+  static const accentSoft = Color(0xFFF6E8D4);
 }
 
 class AppTheme {

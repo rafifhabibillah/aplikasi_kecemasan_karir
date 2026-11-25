@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
+import '../brand/app_brand.dart';
 import '../services/session_service.dart';
 import '../theme/app_theme.dart';
 import '../widgets/common_widgets.dart';
@@ -67,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     const BrandMark(size: 64, showShadow: false),
                     const SizedBox(height: 22),
                     Text(
-                      'ArahTenang',
+                      AppBrand.name,
                       style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w800,
@@ -154,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: Colors.white,
                                 ),
                               )
-                            : const Text('Masuk ke ArahTenang'),
+                            : Text('Masuk ke ${AppBrand.name}'),
                       ),
                     ],
                   ),

@@ -1,9 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
+import '../brand/app_brand.dart';
 import '../services/session_service.dart';
 import '../widgets/common_widgets.dart';
 import 'login_screen.dart';
 import 'main_shell.dart';
+import 'onboarding_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -36,13 +38,23 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _boot() async {
-    await Future<void>.delayed(const Duration(milliseconds: 1400));
+    await Future<void>.delayed(const Duration(milliseconds: 1100));
     final loggedIn = await _session.isLoggedIn();
+    final onboardingDone = await _session.isOnboardingDone();
     if (!mounted) return;
+
+    final Widget next;
+    if (loggedIn) {
+      next = const MainShell();
+    } else if (!onboardingDone) {
+      next = const OnboardingScreen();
+    } else {
+      next = const LoginScreen();
+    }
+
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            loggedIn ? const MainShell() : const LoginScreen(),
+        pageBuilder: (context, animation, secondaryAnimation) => next,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(opacity: animation, child: child);
         },
@@ -76,7 +88,7 @@ class _SplashScreenState extends State<SplashScreen>
                       const BrandMark(size: 96),
                       const SizedBox(height: 28),
                       Text(
-                        'ArahTenang',
+                        AppBrand.name,
                         style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w800,
@@ -85,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        'Tenangkan pikiran, arahkan karier',
+                        AppBrand.tagline,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                               color: Colors.white.withValues(alpha: 0.78),

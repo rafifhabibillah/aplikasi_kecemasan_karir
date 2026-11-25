@@ -24,9 +24,21 @@ class WellbeingStore {
 
   Future<void> saveCheckIn(CheckIn item) async {
     final prefs = await SharedPreferences.getInstance();
-    final current = prefs.getStringList(_checkInsKey) ?? [];
-    current.add(jsonEncode(item.toJson()));
-    await prefs.setStringList(_checkInsKey, current);
+    final existing = await getCheckIns();
+    final day = DateTime(
+      item.createdAt.year,
+      item.createdAt.month,
+      item.createdAt.day,
+    );
+    final withoutToday = existing.where((e) {
+      final d = DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day);
+      return d != day;
+    }).toList();
+    withoutToday.add(item);
+    await prefs.setStringList(
+      _checkInsKey,
+      withoutToday.map((e) => jsonEncode(e.toJson())).toList(),
+    );
     await logActivity(
       type: 'check_in',
       title: 'Check-in kecemasan: ${item.label}',
@@ -46,6 +58,46 @@ class WellbeingStore {
     return null;
   }
 
+  /// Level kecemasan 7 hari terakhir (index 0 = 6 hari lalu, 6 = hari ini).
+  /// Null jika belum ada check-in di hari tersebut.
+  Future<List<int?>> last7DayCheckInLevels() async {
+    final items = await getCheckIns();
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    final byDay = <DateTime, int>{};
+    for (final item in items) {
+      final d = DateTime(
+        item.createdAt.year,
+        item.createdAt.month,
+        item.createdAt.day,
+      );
+      byDay.putIfAbsent(d, () => item.anxietyLevel);
+    }
+    return List.generate(7, (i) {
+      final day = today.subtract(Duration(days: 6 - i));
+      return byDay[day];
+    });
+  }
+
+  Future<Set<DateTime>> activityDaysInLast(int days) async {
+    final activities = await getActivities();
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+    final start = today.subtract(Duration(days: days - 1));
+    return activities
+        .map(
+          (e) => DateTime(e.createdAt.year, e.createdAt.month, e.createdAt.day),
+        )
+        .where((d) => !d.isBefore(start) && !d.isAfter(today))
+        .toSet();
+  }
+
   Future<List<JournalEntry>> getJournals() async {
     final prefs = await SharedPreferences.getInstance();
     final raw = prefs.getStringList(_journalsKey) ?? [];
@@ -63,6 +115,23 @@ class WellbeingStore {
     current.add(jsonEncode(item.toJson()));
     await prefs.setStringList(_journalsKey, current);
     await logActivity(type: 'journal', title: 'Jurnal refleksi disimpan');
+  }
+
+  Future<void> deleteJournal(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final items = await getJournals();
+    await prefs.setStringList(
+      _journalsKey,
+      items.where((e) => e.id != id).map((e) => jsonEncode(e.toJson())).toList(),
+    );
+  }
+
+  Future<void> clearAll() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_checkInsKey);
+    await prefs.remove(_journalsKey);
+    await prefs.remove(_stepsKey);
+    await prefs.remove(_activitiesKey);
   }
 
   Future<List<CareerStep>> getSteps() async {
